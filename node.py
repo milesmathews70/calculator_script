@@ -1,29 +1,25 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 class Node:
-        def __init__(self, v=None, left=None, right=None):
+        def __init__(self, v=None, left=None, right=None, level=10):
             self.value_ = v
-            self.leftChild_ = left
-            self.rightChild_ = right
-
-        def leftChild(self, v=None, left=None, right=None):
+	        if left != None:
+            	self.leftChild_ = Node(left)
+            else:
+                self.leftChild_ = None
+	        if right != None:
+		        self.rightChild_ = Node(right)
+            else:
+                self.rightChild_ = None
+            self.level_ = level
+        def leftChild(self, v=None):
             if v != None: 
-                if self.leftChild_ == None:
-                    self.leftChild_ = Node(v)
-                else:
-                    self.leftChild_.value_ = v
-                self.leftChild_.leftChild_ = left
-                self.leftChild_.rightChild_ = right
+                self.leftChild_ = Node(v)
             return self.leftChild_
 
-        def rightChild(self, v=None, left=None, right=None):
+        def rightChild(self, v=None):
             if v != None:
-                if self.rightChild_ == None:
-                    self.rightChild_ = Node(v)
-                else:
-                    self.rightChild_.value_ = v
-                self.rightChild_.leftChild_ = left
-                self.rightChild_.rightChild_ = right
+                self.rightChild_ = Node(v)
             return self.rightChild_
 
         def setValue(self, v):

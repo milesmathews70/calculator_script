@@ -2,7 +2,7 @@
 
 from Node import Node
 from Tree import Tree
-from Queue import Queue
+from Expression import Expression
 
 def main():
     nums = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -15,13 +15,11 @@ def main():
     print("div: " + str(div.doOperation()))
     print("mul: " + str(mul.doOperation()))
     
-    expression = list("(1+3)*4")
-    q = Queue()
-    for i in expression:
-        q.enqueue(i)
-    t = Tree(q)
-    t.printTree()
-    t.editTree()
+    expression = "1+3*4"
+    e = Expression(expression)
+    t = Tree(e)
+    print(t)
+    # t.editTree()
     #print(t.root().value())
   #  t.printTree()
 
