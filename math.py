@@ -15,10 +15,12 @@ def main():
     print("div: " + str(div.doOperation()))
     print("mul: " + str(mul.doOperation()))
     
-    expression = "1+3*4"
+    expression = "2*3*4+5/5*6"
     e = Expression(expression)
+    print(e)
     t = Tree(e)
-    print(t)
+    # t.printTree()
+    print(t.calculateTree())
     # t.editTree()
     #print(t.root().value())
   #  t.printTree()

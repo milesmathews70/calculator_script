@@ -5,15 +5,15 @@ class Operations:
     def __init__(self):
         self.operations = {"+" : 1, "-" : 1, "*" : 2, "/" : 2, "**" : 3, "(" : 4, ")" : 4}
     
-    def getLevel(self, input):
-        if input in self.operations:
-            return self.operations[input]
+    def getLevel(self, input_):
+        if input_ in self.operations:
+            return self.operations[input_]
         else:
-            return 0
+            return 5
 
-    def processLevels(self, input):
+    def processLevels(self, input_):
         levels = []
-        for i in input:
+        for i in input_:
             levels.append(self.getLevel(i))
         return levels
 

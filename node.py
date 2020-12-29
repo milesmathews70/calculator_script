@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 
 class Node:
-        def __init__(self, v=None, left=None, right=None, level=10):
+        def __init__(self, v=None):
             self.value_ = v
-	        if left != None:
-            	self.leftChild_ = Node(left)
+            if v != None:
+                self.leftChild_ = Node()
+                self.rightChild_ = Node()
             else:
                 self.leftChild_ = None
-	        if right != None:
-		        self.rightChild_ = Node(right)
-            else:
                 self.rightChild_ = None
-            self.level_ = level
+                
         def leftChild(self, v=None):
             if v != None: 
                 self.leftChild_ = Node(v)
@@ -26,6 +24,9 @@ class Node:
             self.value_ = v
 
         def value(self):
+            return self.value_
+
+        def __str__(self):
             return self.value_
 
         def is_int(self):

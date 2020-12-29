@@ -2,63 +2,29 @@
 
 from Node import Node
 from Expression import Expression
+from Operations import Operations
 
 class Tree:
-	
-    def __init__(self, expression):
-       self.expression_ = expression
-       self.writeTree(expression)
 
-    def writeTree(self, expression):
-        list_of_nodes = []
-        currentNode = None
-        idx = 0
-        maxLevel = -1
-        maxLevelidx = -1
-        while (len(expression) > 0):
-            if maxLevel < expression[idx][1]:
-                maxLevel = expression[idx][1]
-                maxLevelidx = idx
-            if idx == len(expression):
-                if maxLevelidx - 1 > 0 && maxLevelidx + 1 < len(expression) && self.is_int(expression[maxLevelidx - 1][0]) && self.is_int(expression[maxLevelidx + 1][0]):
-                    currentNode = Node(expression[maxLevelidx], expression[maxLevelidx - 1][0], expression[maxLevelidx + 1][0])
-                    list_of_nodes.append(currentNode)
-                    expression.remove(maxLevelidx + 1)
-                    expression.remove(maxLevelidx)
-                    expression.remove(maxLevelidx - 1)
-                elif maxLevelidx - 1 > 0 && self.is_int(expression[maxLevelidx - 1][0]):
-                    list_of_nodes.append(Node(expression[maxLevelidx], currentNode, expression[maxLevelidx - 1][0]))
-                    expression.remove(maxLevelidx)
-                    expression.remove(maxLevelidx)
-                elif maxLevelidx + 1 < len(expression) && self.is_int(expression[maxLevelidx + 1][0]):
-                    list_of_nodes.append(Node(expression[maxLevelidx], currentNode, expression[maxLevelidx + 1][0]))
-                    expression.remove(maxLevelidx - 1)
-                    expression.remove(maxLevelidx - 1)
-                else:
-                    list_of_nodes.append(Node(expression[maxLevelidx], 'temp', 'temp'))
-                    expression.remove(maxLevelidx)
-                idx = 0
-                maxLevel = -1
-                maxLevelidx = -1
-            else:
-                idx += 1
-        self.root = self.min(list_of_nodes)
-        writeTreeRecur(list_of_nodes, self.root)
-        # self.root = Node(expression.dequeue())
-        # self.writeTreeRecur(expression, self.root)
+    def __init__(self, expression):
+       self.root = 'temp'
+       self.root = self.writeTree(expression, self.root)
+       self.operations_ = Operations()
     
-    def __str__:
-        return printTree()
+    def __str__(self):
+        return self.printTree()
     
-    def writeTreeRecur(self, expression, currentNode):
+    def writeTree(self, expression, subroot):
         if len(expression) == 0:
-            return
-        if currentNode.leftChild().value() == 'temp':
-            currentNode.leftChild(self.min(list_of_nodes))
-        if currentNode.rightChild().value() == 'temp':
-            currentNode.rightChild(self.min(list_of_nodes))
-        self.writeTreeRecur(expression, currentNode.leftChild())
-        self.writeTreeRecur(expression, currentNode.rightChild())
+            return None
+        elem = self.min(expression)
+        subroot = Node(elem[0])
+        subroot.leftChild_ = self.writeTree(expression[0:elem[1]], subroot.leftChild())
+        # print(subroot.leftChild_)
+        subroot.rightChild_ = self.writeTree(expression[elem[1]:], subroot.rightChild())
+        # print(subroot.rightChild_)
+        return subroot
+            
     
     def root(self):
         return self.root
@@ -66,47 +32,57 @@ class Tree:
     def printTree(self):
         if self.root == None:
             return
-        print(self.printTreeRecur(self.root))
+        self.printTreeRecur(self.root)
 
     def printTreeRecur(self, node):
-        if node == None:
-            return
-        self.printTreeRecur(node.leftChild())
-        print(node.value())
-        self.printTreeRecur(node.rightChild())
-    
-    def editTree(self):
-        pass
+        # if node == None:
+        #     return
+        if node.leftChild() != None:
+            self.printTreeRecur(node.leftChild())
+        print node.value()
+        if node.rightChild() != None:
+            self.printTreeRecur(node.rightChild())
+
+    def calculateTree(self):
         if self.root != None:
-            self.root = self.editTreeRecur(self.root)
+            return self.calculateTreeRecur(self.root)
+        return 0
 
-    def editTreeRecur(self, currentNode):
-        if currentNode.rightChild() != None:
-            if currentNode.rightChild().is_int() == False:
-                temp_one = currentNode.rightChild().leftChild().value()
-                temp_two = currentNode.rightChild().rightChild().leftChild().value()
+    def calculateTreeRecur(self, subroot):
+        left = 1
+        right = 1
+        if subroot.leftChild().is_int():
+            left = int(subroot.leftChild().value())
+        else:
+            left = self.calculateTreeRecur(subroot.leftChild())
+        if subroot.rightChild().is_int():
+            right = int(subroot.rightChild().value())
+        else:
+            right = self.calculateTreeRecur(subroot.rightChild())
+        
+        if subroot.value() == '+':
+            print(left + right)
+            return left + right
+        if subroot.value() == '-':
+            print(left - right)
+            return left - right
+        if subroot.value() == '*':
+            print(left * right)
+            return left * right
+        if subroot.value() == '/':
+            print(left / right)
+            return left / right
+        
+        
 
-                #Opening parenthesis, repeat for all of the expressions inside the parentheses?
-                currentNode.rightChild().leftChild(left=currentNode.leftChild())
-                currentNode.equals(currentNode.rightChild())
-
-                #Closing parenthesis
-                currentNode.rightChild().setValue(temp_two)
-                currentNode.rightChild().leftChild(left=currentNode)
-                currentNode.setValue(currentNode.rightChild().value())
-                #currentNode.leftChild().rightChild().setValue(temp_one)
-                print(currentNode.value())
-                print(currentNode.rightChild().value())
-                #print(currentNode.rightChild().leftChild().value())
-                print(currentNode.leftChild().value())
-                #print(currentNode.leftChild().leftChild().rightChild())
-                #print(currentNode.leftChild().rightChild().value())
-                #self.printTreeRecur(currentNode)
-        return currentNode
-
-    def is_int(self, elem):
-        return type(elem) == int or type(elem) == float
-
-    def min(self, nodes):
-        return nodes[len(nodes) - 1]
-
+    def min(self, expression):
+        operations = Operations()
+        min_ = 6
+        idx = -1
+        for i, item in enumerate(expression):
+            if min_ > operations.getLevel(item):
+                min_ = operations.getLevel(item)
+                idx = i
+        elem = expression.pop(idx)
+        self.expression = expression
+        return (elem, idx)
