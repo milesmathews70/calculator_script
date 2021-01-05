@@ -3,9 +3,9 @@
 class Operations:
 
     def __init__(self):
-        self.operations = {"+" : 1, "-" : 1, "*" : 2, "/" : 2, "**" : 3, "(" : 4, ")" : 4}
+        self.operations = {"+" : 1, "-" : 1, "*" : 2, "/" : 2, "^" : 3, "(" : 4, ")" : 4}
     
-    def getLevel(self, input_):
+    def __getitem__(self, input_):
         if input_ in self.operations:
             return self.operations[input_]
         else:

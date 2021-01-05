@@ -9,6 +9,7 @@ class Tree:
     def __init__(self, expression):
        self.root = 'temp'
        self.root = self.writeTree(expression, self.root)
+       print("---Tree Built---")
        self.operations_ = Operations()
     
     def __str__(self):
@@ -20,9 +21,7 @@ class Tree:
         elem = self.min(expression)
         subroot = Node(elem[0])
         subroot.leftChild_ = self.writeTree(expression[0:elem[1]], subroot.leftChild())
-        # print(subroot.leftChild_)
         subroot.rightChild_ = self.writeTree(expression[elem[1]:], subroot.rightChild())
-        # print(subroot.rightChild_)
         return subroot
             
     
@@ -61,28 +60,27 @@ class Tree:
             right = self.calculateTreeRecur(subroot.rightChild())
         
         if subroot.value() == '+':
-            print(left + right)
             return left + right
         if subroot.value() == '-':
-            print(left - right)
             return left - right
         if subroot.value() == '*':
-            print(left * right)
             return left * right
         if subroot.value() == '/':
-            print(left / right)
             return left / right
+        if subroot.value() == '^':
+            return left ** right
         
         
 
     def min(self, expression):
         operations = Operations()
-        min_ = 6
-        idx = -1
+        min_ = 100000
+        idx_nodes = []
         for i, item in enumerate(expression):
-            if min_ > operations.getLevel(item):
-                min_ = operations.getLevel(item)
-                idx = i
-        elem = expression.pop(idx)
-        self.expression = expression
-        return (elem, idx)
+            if min_ > item.l:
+                min_ = item.l
+        for i, item in enumerate(expression):
+            if min_ == item.l:
+                idx_nodes.append(i)
+        elem = expression.pop(idx_nodes[len(idx_nodes) - 1]).e
+        return (elem, idx_nodes[len(idx_nodes) - 1])

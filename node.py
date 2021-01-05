@@ -40,3 +40,6 @@ class Node:
             self.leftChild_ = other.leftChild_
             self.rightChild_ = other.rightChild_
             self.value_ = other.value_
+        
+        def __call__(self):
+            return self.value_
