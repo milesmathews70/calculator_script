@@ -12,23 +12,24 @@ class Expression:
     def processExpression(self, expression):
         l = []
         paranthesis_counter = 0
+        minus_flag = False
         previous_integer = ''
         for element in expression:
-            if element in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
-                previous_integer += element
+            if element in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] or  (previous_integer == '' and element == '-') or element == '.':
+                    previous_integer += element
             else:
                 if previous_integer != '':
                     l.append(Element(previous_integer, self.operations[previous_integer] + 4*paranthesis_counter))
                     previous_integer = ''
-                if element is '(':
+                if element == '(':
                     paranthesis_counter += 1
                     continue
 
-                elif element is ')':
+                elif element == ')':
                     paranthesis_counter -= 1
                     continue
                 
-                elif element is ' ':
+                elif element == ' ':
                     continue
 
                 else:

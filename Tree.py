@@ -38,7 +38,7 @@ class Tree:
         #     return
         if node.leftChild() != None:
             self.printTreeRecur(node.leftChild())
-        print node.value()
+        print(node.value())
         if node.rightChild() != None:
             self.printTreeRecur(node.rightChild())
 
@@ -51,11 +51,11 @@ class Tree:
         left = 1
         right = 1
         if subroot.leftChild().is_int():
-            left = int(subroot.leftChild().value())
+            left = float(subroot.leftChild().value())
         else:
             left = self.calculateTreeRecur(subroot.leftChild())
         if subroot.rightChild().is_int():
-            right = int(subroot.rightChild().value())
+            right = float(subroot.rightChild().value())
         else:
             right = self.calculateTreeRecur(subroot.rightChild())
         

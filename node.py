@@ -31,7 +31,7 @@ class Node:
 
         def is_int(self):
             try:
-                int(self.value_)
+                float(self.value_)
                 return True
             except:
                 return False
